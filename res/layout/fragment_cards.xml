@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="396dp" >
+
+        <ImageView
+            android:id="@+id/card_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/starbucks_gift_card" />
+
+        <TextView
+            android:id="@+id/card_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/card_picture"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="16dp"
+            android:text="$0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/card_balance"
+            android:text="Last Updated As of: " />
+
+        <TextView
+            android:id="@+id/card_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView2"
+            android:text="2014-06-15, 01:30"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/card_balance"
+            android:layout_alignBottom="@+id/card_balance"
+            android:layout_centerHorizontal="true"
+            android:text="Balance: " />
+
+        <Button
+            android:id="@+id/card_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/card_date"
+            android:layout_marginTop="38dp"
+            android:text="Pay Now" />
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+       	android:stretchColumns="0, 1"
+		android:shrinkColumns="0, 1"
+        >
+
+
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            
+            
+            <Button
+	            android:id="@+id/card_reload"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:text="Reload" />
+
+       		<Button
+	            android:id="@+id/button1"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:text="Manage" />
+            
+            
+        </TableRow>
+
+
+
+    </TableLayout>
+
+</LinearLayout>
