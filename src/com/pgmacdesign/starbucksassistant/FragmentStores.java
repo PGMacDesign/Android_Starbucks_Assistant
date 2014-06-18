@@ -14,6 +14,7 @@ import java.util.Random;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,10 +23,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +55,8 @@ public class FragmentStores extends Fragment {
 	static double endLat;
 	static double endLng;
 	
+	double[] nearbyStores;
+	
 	LatLng closestStarbucks;
 
 	//Main - When the activity starts
@@ -59,6 +65,8 @@ public class FragmentStores extends Fragment {
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_stores, container, false);
+		
+		nearbyStores = new double[2];
 		
 		map = ((MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map)).getMap();
 		//map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -77,15 +85,13 @@ public class FragmentStores extends Fragment {
 
 		
 		
-		
-		//Popup a dialog after 5 seconds with option to start directions
+		//Popup a dialog after 3 seconds with option to start directions
 		Handler handler = new Handler(); 
 	    handler.postDelayed(new Runnable() { 
 	         public void run() { 
-	        	 //If a popup is needed after the map loads
-	        	 //NavigationPopup(); 
+	        	 finalStarbucksStuff();
 	         } 
-	    }, (1000*5));
+	    }, (1000*3));
 	    
 		
 	
@@ -141,10 +147,6 @@ public class FragmentStores extends Fragment {
 		
 		LatLng mapCenter = new LatLng(d[0], d[1]);
 
-		double[] nearbyStores = searchForStuff();
-		closestStarbucks = new LatLng(nearbyStores[0], nearbyStores[1]);
-		
-		
 		//Allows for the cross-hairs button which will zoom into you
 		map.setMyLocationEnabled(true);
 		
@@ -154,14 +156,7 @@ public class FragmentStores extends Fragment {
         .position(mapCenter) //Positions the dot at the center of the location of the user
         .flat(true)
         .rotation(245));
-		
-		map.addMarker(new MarkerOptions()
-		.title("Starbucks")
-        .position(closestStarbucks) //Positions the dot at the closest starbucks
-        .flat(true)
-        .rotation(245));
-		
-		
+
 		//Other method for location and zoom in:
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 		.target(mapCenter)     	    // Sets the center of the location of the user
@@ -179,14 +174,6 @@ public class FragmentStores extends Fragment {
 		
 	}
 
-
-	//Initialize Variables
-	private void findStarbucks(String location1){
-
-		String location = location1;
-		address = location; 
-		ConvertAddress(address);
-	}
 	
 	//Convert the address string into latitude and longitude points
 	public void ConvertAddress(String address) {
@@ -230,64 +217,111 @@ public class FragmentStores extends Fragment {
 	    return gps;
 	}
 	
-	//Searches for a location based on your zip code. IE, Find me a Jamba Juice near 90605
-	@SuppressWarnings("deprecation")
-	public double[] searchForStuff(){
-		final String searchString = "Starbucks";
-		
-		final double[] placeLocations = new double[2];
-
-		
-		
-		Thread backgroundThread = new Thread (new Runnable(){
-			public void run(){
-				try{
-
-					final URL url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address="
-				            + URLEncoder.encode(searchString) + "&sensor=true");
-				
-					URLConnection conn = url.openConnection();
-			        InputStreamReader streamReader = new InputStreamReader(conn.getInputStream());
 	
-			        BufferedReader br = new BufferedReader(streamReader);
-			        StringBuilder sb = new StringBuilder();
-			        String line = null;
-			        while ((line = br.readLine()) != null) {
-			            sb.append(line);
-			            sb.append("\n");
-			        }
-			        br.close();
-	
-			        JSONObject mainObject = new JSONObject(sb.toString());
-			        JSONObject result = mainObject.getJSONArray("results").getJSONObject(0); // Array of location objects
-			        JSONObject geometry = result.getJSONObject("geometry");
-			        JSONObject location = geometry.getJSONObject("location");
-	
-			        double latitude = location.getDouble("lat");
-			        double longitude = location.getDouble("lng");
-			        
-			        placeLocations[0] = latitude;
-			        placeLocations[1] = longitude;
-			        
-			        
-				} catch (IOException e) {
-					String error = e.toString();
-				} catch (Exception e){
-					String error = e.toString();
-				}
+	public void finalStarbucksStuff(){
 
-			}	
-		});// 
+		//Find local Starbucks
+		try {
+			new findSomeCoffee().execute();
+		} catch (Exception e){
+			String error = e.toString();
+			Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+		}
+		
+		//Add the starbucks to the map via marker
+		try {
 			
+			Handler handler1 = new Handler(Looper.getMainLooper());
+			handler1.post(new Runnable(){
 
-		backgroundThread.start();
+				@Override
+				public void run() {
+					LatLng closestStarbucks = new LatLng(nearbyStores[0], nearbyStores[1]);
+					
+					map.addMarker(new MarkerOptions()
+					.title("Starbucks")
+			        .position(closestStarbucks) //Positions the dot at the closest starbucks
+			        .flat(true)
+			        .rotation(245));
+				} 
+			   // your UI code here 
+			});
+
+			Log.d("VIVZ", "Line 250 Worked");
 			
-		Toast.makeText(getActivity(), "Is this working? " + placeLocations[0], Toast.LENGTH_LONG);
-		return placeLocations;
-	       
-		
-	        
+		} catch (Exception e){
+			String error = e.toString();
+			Log.d("VIVZ", error);
+		}	
 	}
+	
+	private class findSomeCoffee extends AsyncTask <String, Long, Void> {
+		private final ProgressDialog dialog = new ProgressDialog(getActivity());
+		
+		// can use UI thread here
+		protected void onPreExecute() {
+			Toast.makeText(getActivity(), "Looking for Starbucks...", Toast.LENGTH_SHORT).show();
+		}
+		
+		// automatically done on worker thread (separate from UI thread)
+		//Searches for a location based on your zip code. IE, Find me a Jamba Juice near 90605
+		protected Void doInBackground(final String... args) {
+			
+			//final String searchString = "Starbucks"; //Unused atm as it is hardcoded 5 lines below
+			
+			try{
+
+				final URL url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address="
+			            + URLEncoder.encode("Starbucks") + "&sensor=true");
+			
+				URLConnection conn = url.openConnection();
+		        InputStreamReader streamReader = new InputStreamReader(conn.getInputStream());
+
+		        BufferedReader br = new BufferedReader(streamReader);
+		        StringBuilder sb = new StringBuilder();
+		        String line = null;
+		        while ((line = br.readLine()) != null) {
+		            sb.append(line);
+		            sb.append("\n");
+		        }
+		        br.close();
+
+		        JSONObject mainObject = new JSONObject(sb.toString());
+		        JSONObject result = mainObject.getJSONArray("results").getJSONObject(0); // Array of location objects
+		        JSONObject geometry = result.getJSONObject("geometry");
+		        JSONObject location = geometry.getJSONObject("location");
+
+		        double latitude = location.getDouble("lat");
+		        double longitude = location.getDouble("lng");
+		        
+		        nearbyStores[0] = latitude;
+		        nearbyStores[1] = longitude;
+		        
+		        Log.d("VIVZ", "IT WORKS!" + Double.toString(nearbyStores[0]));
+		        Log.d("VIVZ", Double.toString(nearbyStores[0]));
+		        Log.d("VIVZ", Double.toString(nearbyStores[1]));
+		        
+			} catch (IOException e) {
+				String error = e.toString();
+				Log.d("VIVZ", error);
+			} catch (Exception e){
+				String error = e.toString();
+				Log.d("VIVZ", error);
+			}
+			return null;
+		}
+
+		// periodic updates - it is OK to change UI
+		@Override
+		protected void onProgressUpdate(Long... value) {
+			super.onProgressUpdate(value);
+			
+		}
+		
+		// can use UI thread here
+		protected void onPostExecute(final Void unused) {
+		}
+	}//AsyncTask
 	
 
 }
