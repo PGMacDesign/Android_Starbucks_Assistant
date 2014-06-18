@@ -255,6 +255,7 @@ public class FragmentStores extends Fragment {
 		}	
 	}
 	
+	//This is returning an address in Colorado (Starbucks way). Will have to change to Google Places
 	private class findSomeCoffee extends AsyncTask <String, Long, Void> {
 		private final ProgressDialog dialog = new ProgressDialog(getActivity());
 		
