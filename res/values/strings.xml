@@ -4,5 +4,7 @@
     <string name="app_name">Starbucks Assistant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Your Nearest Places</string>
 
 </resources>

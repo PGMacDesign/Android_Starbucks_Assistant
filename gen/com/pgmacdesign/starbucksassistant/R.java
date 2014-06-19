@@ -555,60 +555,74 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020016;
         public static final int common_signin_btn_text_pressed_dark=0x7f020017;
         public static final int common_signin_btn_text_pressed_light=0x7f020018;
-        public static final int ic_launcher=0x7f020019;
-        public static final int ic_plusone_medium_off_client=0x7f02001a;
-        public static final int ic_plusone_small_off_client=0x7f02001b;
-        public static final int ic_plusone_standard_off_client=0x7f02001c;
-        public static final int ic_plusone_tall_off_client=0x7f02001d;
-        public static final int pgmacdesign_logo_silver_square=0x7f02001e;
-        public static final int powered_by_google_dark=0x7f02001f;
-        public static final int powered_by_google_light=0x7f020020;
-        public static final int screenshot_coffee=0x7f020021;
-        public static final int starbucks_gift_card=0x7f020022;
+        public static final int fail=0x7f020019;
+        public static final int ic_action_search=0x7f02001a;
+        public static final int ic_launcher=0x7f02001b;
+        public static final int ic_plusone_medium_off_client=0x7f02001c;
+        public static final int ic_plusone_small_off_client=0x7f02001d;
+        public static final int ic_plusone_standard_off_client=0x7f02001e;
+        public static final int ic_plusone_tall_off_client=0x7f02001f;
+        public static final int mark_blue=0x7f020020;
+        public static final int mark_red=0x7f020021;
+        public static final int pgmacdesign_logo_silver_square=0x7f020022;
+        public static final int powered_by_google_dark=0x7f020023;
+        public static final int powered_by_google_light=0x7f020024;
+        public static final int screenshot_coffee=0x7f020025;
+        public static final int starbucks_gift_card=0x7f020026;
+        public static final int success=0x7f020027;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f060021;
-        public static final int action_settings=0x7f060023;
+        public static final int LinearLayout1=0x7f060023;
+        public static final int action_settings=0x7f06002c;
+        public static final int address=0x7f060028;
         public static final int book_now=0x7f060010;
-        public static final int button1=0x7f06001d;
+        public static final int btn_show_map=0x7f060015;
+        public static final int button1=0x7f06001f;
         public static final int buyButton=0x7f06000a;
         public static final int buy_now=0x7f06000f;
         public static final int buy_with_google=0x7f06000e;
-        public static final int card_balance=0x7f060016;
-        public static final int card_date=0x7f060018;
-        public static final int card_pay=0x7f06001a;
-        public static final int card_picture=0x7f060015;
-        public static final int card_reload=0x7f06001c;
+        public static final int card_balance=0x7f060018;
+        public static final int card_date=0x7f06001a;
+        public static final int card_pay=0x7f06001c;
+        public static final int card_picture=0x7f060017;
+        public static final int card_reload=0x7f06001e;
         public static final int classic=0x7f060011;
         public static final int grayscale=0x7f060012;
         public static final int holo_dark=0x7f060005;
         public static final int holo_light=0x7f060006;
         public static final int hybrid=0x7f060004;
-        public static final int imageView1=0x7f06001f;
-        public static final int imageView2=0x7f060020;
-        public static final int map=0x7f060022;
+        public static final int imageView1=0x7f060021;
+        public static final int imageView2=0x7f060022;
+        public static final int list=0x7f060016;
+        public static final int location=0x7f06002a;
+        public static final int map=0x7f060024;
+        public static final int mapView=0x7f060027;
         public static final int match_parent=0x7f06000c;
-        public static final int menuitem_about=0x7f060029;
-        public static final int menuitem_add=0x7f060026;
-        public static final int menuitem_feedback=0x7f060028;
-        public static final int menuitem_quit=0x7f06002a;
-        public static final int menuitem_search=0x7f060024;
-        public static final int menuitem_send=0x7f060025;
-        public static final int menuitem_share=0x7f060027;
+        public static final int menu_settings=0x7f06002b;
+        public static final int menuitem_about=0x7f060032;
+        public static final int menuitem_add=0x7f06002f;
+        public static final int menuitem_feedback=0x7f060031;
+        public static final int menuitem_quit=0x7f060033;
+        public static final int menuitem_search=0x7f06002d;
+        public static final int menuitem_send=0x7f06002e;
+        public static final int menuitem_share=0x7f060030;
         public static final int monochrome=0x7f060013;
+        public static final int name=0x7f060026;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int pager=0x7f060014;
+        public static final int phone=0x7f060029;
         public static final int production=0x7f060007;
+        public static final int reference=0x7f060025;
         public static final int sandbox=0x7f060008;
         public static final int satellite=0x7f060002;
         public static final int selectionDetails=0x7f06000b;
         public static final int strict_sandbox=0x7f060009;
-        public static final int tableRow1=0x7f06001b;
+        public static final int tableRow1=0x7f06001d;
         public static final int terrain=0x7f060003;
-        public static final int textView1=0x7f06001e;
-        public static final int textView2=0x7f060017;
-        public static final int textView3=0x7f060019;
+        public static final int textView1=0x7f060020;
+        public static final int textView2=0x7f060019;
+        public static final int textView3=0x7f06001b;
         public static final int wrap_content=0x7f06000d;
     }
     public static final class integer {
@@ -616,15 +630,21 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment_cards=0x7f030001;
-        public static final int fragment_main=0x7f030002;
-        public static final int fragment_rewards=0x7f030003;
-        public static final int fragment_stores=0x7f030004;
-        public static final int splash=0x7f030005;
+        public static final int activity_main2=0x7f030001;
+        public static final int fragment_cards=0x7f030002;
+        public static final int fragment_main=0x7f030003;
+        public static final int fragment_rewards=0x7f030004;
+        public static final int fragment_stores=0x7f030005;
+        public static final int list_item=0x7f030006;
+        public static final int map_places=0x7f030007;
+        public static final int map_popup=0x7f030008;
+        public static final int single_place=0x7f030009;
+        public static final int splash=0x7f03000a;
     }
     public static final class menu {
-        public static final int main=0x7f0a0000;
-        public static final int tabs_menu=0x7f0a0001;
+        public static final int activity_main=0x7f0a0000;
+        public static final int main=0x7f0a0001;
+        public static final int tabs_menu=0x7f0a0002;
     }
     public static final class string {
         public static final int action_settings=0x7f05001b;
@@ -719,6 +739,8 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f050018;
         public static final int hello_world=0x7f05001a;
+        public static final int menu_settings=0x7f05001c;
+        public static final int title_activity_main=0x7f05001d;
     }
     public static final class style {
         /** 
