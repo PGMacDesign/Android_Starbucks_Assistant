@@ -10,28 +10,28 @@ import com.google.api.client.util.Key;
 * */
 public class Place implements Serializable {
 
-	//@Key
+	@Key
 	public String id;
 	
-	//@Key
+	@Key
 	public String name;
 	
-	//@Key
+	@Key
 	public String reference;
 	
-	//@Key
+	@Key
 	public String icon;
 	
-	//@Key
+	@Key
 	public String vicinity;
 	
-	//@Key
+	@Key
 	public Geometry geometry;
 	
-	//@Key
+	@Key
 	public String formatted_address;
 	
-	//@Key
+	@Key
 	public String formatted_phone_number;
 
 	@Override
@@ -41,16 +41,16 @@ public class Place implements Serializable {
 	
 	public static class Geometry implements Serializable
 	{
-		//@Key
+		@Key
 		public Location location;
 	}
 	
 	public static class Location implements Serializable
 	{
-		//@Key
+		@Key
 		public double lat;
 		
-		//@Key
+		@Key
 		public double lng;
 	}
 	

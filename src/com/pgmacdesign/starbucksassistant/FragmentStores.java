@@ -74,7 +74,6 @@ public class FragmentStores extends Fragment {
 	static double endLng;
 	
 	double testLat, testLng;
-	double[] d = new double[2];
 
 	LatLng closestStarbucks;
 	
@@ -93,6 +92,9 @@ public class FragmentStores extends Fragment {
 
 	// Places List
 	PlacesList nearPlaces;
+	
+	// Place Details
+	PlaceDetails placeDetails;
 
 	// GPS Location
 	GPSTracker gps;
@@ -150,7 +152,6 @@ public class FragmentStores extends Fragment {
 		//map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 		
 		//Get Current Location and set it to center of map
-		d = Getlocation();
 		try {
 			GetCurrentLocation();
 		} catch (Exception e){
@@ -258,19 +259,7 @@ public class FragmentStores extends Fragment {
 	         public void run() { 
 	        	 
 	        	 //
-	        	 /*
-					LatLng starbucksHopefully = new LatLng(testLat, testLng);
-
-					//Allows for the cross-hairs button which will zoom into you
-					map.setMyLocationEnabled(true);
-					
-					//Adds an image to center of the location of the person//
-					map.addMarker(new MarkerOptions()
-					//.icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot)) //Sets the icon where you are located
-			        .position(starbucksHopefully) //Positions the dot at the center of the location of the user
-			        .flat(true)
-			        .rotation(245));
-	        	 */
+	        	 executeOrder66();
 	        	 //
 	         } 
 	    }, (1000*3));
@@ -284,6 +273,7 @@ public class FragmentStores extends Fragment {
 	//Determines the current location via their location and zooms in to it
 	private void GetCurrentLocation() {
 		
+		double[] d = Getlocation();
 		
 		startLat = d[0];
 		startLon = d[1];
@@ -385,6 +375,7 @@ public class FragmentStores extends Fragment {
 		protected String doInBackground(String... args) {
 			// creating Places class object
 			googlePlaces = new GooglePlaces();
+
 			
 			try {
 				// Separeate your place types by PIPE symbol "|"
@@ -409,7 +400,7 @@ public class FragmentStores extends Fragment {
 				Log.d("Test Latitude", Double.toString(testLat));
 				Log.d("Test Longitude", Double.toString(testLng));
 				
-
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -428,6 +419,8 @@ public class FragmentStores extends Fragment {
 			// updating UI from Background Thread
 			getActivity().runOnUiThread(new Runnable() {
 				public void run() {
+					
+									
 					/**
 					 * Updating parsed Places into LISTVIEW
 					 * */
@@ -461,7 +454,7 @@ public class FragmentStores extends Fragment {
 					                        R.id.reference, R.id.name });
 							
 							// Adding data into listview
-							lv.setAdapter(adapter);
+							//lv.setAdapter(adapter);
 						}
 					}
 					else if(status.equals("ZERO_RESULTS")){
