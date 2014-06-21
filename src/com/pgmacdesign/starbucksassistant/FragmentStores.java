@@ -1,37 +1,19 @@
 package com.pgmacdesign.starbucksassistant;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
-
-import org.json.JSONObject;
-
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
@@ -39,15 +21,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -73,7 +49,8 @@ public class FragmentStores extends Fragment {
 	static double endLat;
 	static double endLng;
 	
-	double testLat, testLng;
+	double uberLatitude, testLat;
+	double uberLongitude, testLng;
 
 	LatLng closestStarbucks;
 	
@@ -386,13 +363,13 @@ public class FragmentStores extends Fragment {
 				String name = "starbucks";
 				
 				// Radius in meters - increase this value if you don't find any places
-				double radius = 1000; // 1000 meters 
+				double radius = 10000; // 10000 meters 
 				
 				double[] dy = Getlocation();
 				
 				// get nearest places
 				nearPlaces = googlePlaces.search(dy[0],
-						dy[1], radius, name); //Last parameter Should be types, doing a workaround
+						dy[1], radius, types);
 				
 				testLat = gps.getLatitude();
 				testLng = gps.getLongitude();
@@ -447,6 +424,7 @@ public class FragmentStores extends Fragment {
 								// adding HashMap to ArrayList
 								placesListItems.add(map);
 							}
+							/*
 							// list adapter
 							ListAdapter adapter = new SimpleAdapter(getActivity(), placesListItems,
 					                R.layout.list_item,
@@ -454,7 +432,8 @@ public class FragmentStores extends Fragment {
 					                        R.id.reference, R.id.name });
 							
 							// Adding data into listview
-							//lv.setAdapter(adapter);
+							lv.setAdapter(adapter);
+							*/
 						}
 					}
 					else if(status.equals("ZERO_RESULTS")){
@@ -507,15 +486,56 @@ public class FragmentStores extends Fragment {
 
 	public void executeOrder66(){
 		
+		/*
+		mapView = (MapView) findViewById(R.id.mapView);
+		mapView.setBuiltInZoomControls(true);
+
+		mapOverlays = mapView.getOverlays();
+		
+		// Geopoint to place on map
+		geoPoint = new GeoPoint((int) (Double.parseDouble(user_latitude) * 1E6),
+				(int) (Double.parseDouble(user_longitude) * 1E6));
+		
+		// Drawable marker icon
+		Drawable drawable_user = this.getResources()
+				.getDrawable(R.drawable.mark_red);
+		
+		itemizedOverlay = new AddItemizedOverlay(drawable_user, getApplication());
+		
+		// Map overlay item
+		overlayitem = new OverlayItem(geoPoint, "Your Location",
+				"That is you!");
+
+		itemizedOverlay.addOverlay(overlayitem);
+		
+		mapOverlays.add(itemizedOverlay);
+		itemizedOverlay.populateNow();
+		
+		// Drawable marker icon
+		Drawable drawable = this.getResources()
+				.getDrawable(R.drawable.mark_blue);
+		
+		itemizedOverlay = new AddItemizedOverlay(drawable, getActivity());
+
+		mc = mapView.getController();
+		*/
+
+		// These values are used to get map boundary area
+		// The area where you can see all the markers on screen
+		int minLat = Integer.MAX_VALUE;
+		int minLong = Integer.MAX_VALUE;
+		int maxLat = Integer.MIN_VALUE;
+		int maxLong = Integer.MIN_VALUE;
+
 
 		// check for null in case it is null
 		if (nearPlaces.results != null) {
 			// loop through all the places
 			for (Place place : nearPlaces.results) {
+				uberLatitude = place.geometry.location.lat; // latitude
+				uberLongitude = place.geometry.location.lng; // longitude
 				
-				double[] dx = Getlocation();
-				
-				LatLng starbucksHopefully = new LatLng(dx[0], dx[1]);
+				LatLng mapCenter = new LatLng(uberLatitude, uberLongitude);
 
 				//Allows for the cross-hairs button which will zoom into you
 				map.setMyLocationEnabled(true);
@@ -523,15 +543,46 @@ public class FragmentStores extends Fragment {
 				//Adds an image to center of the location of the person//
 				map.addMarker(new MarkerOptions()
 				//.icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot)) //Sets the icon where you are located
-		        .position(starbucksHopefully) //Positions the dot at the center of the location of the user
+		        .position(mapCenter) //Positions the dot at the center of the location of the user
 		        .flat(true)
 		        .rotation(245));
+
+				
+				
+				/*
+				// Geopoint to place on map
+				geoPoint = new GeoPoint((int) (uberLatitude * 1E6),
+						(int) (uberLongitude * 1E6));
+				
+				// Map overlay item
+				overlayitem = new OverlayItem(geoPoint, place.name,
+						place.vicinity);
+
+				itemizedOverlay.addOverlay(overlayitem);
+				
+				
+				// calculating map boundary area
+				minLat  = (int) Math.min( geoPoint.getLatitudeE6(), minLat );
+			    minLong = (int) Math.min( geoPoint.getLongitudeE6(), minLong);
+			    maxLat  = (int) Math.max( geoPoint.getLatitudeE6(), maxLat );
+			    maxLong = (int) Math.max( geoPoint.getLongitudeE6(), maxLong );
+			    */
 			}
+			/*
+			mapOverlays.add(itemizedOverlay);
 			
+			// showing all overlay items
+			itemizedOverlay.populateNow();
+			*/
 		}
 				
-		
+				
 	}
+			
+		
+				
+		
+	
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getActivity().getMenuInflater().inflate(R.menu.activity_main, menu);

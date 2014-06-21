@@ -57,23 +57,24 @@ public class GooglePlaces {
 		try {
 
 
-			String THE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=33.9212767,-118.0067825&radius=5000&types=cafe&name=starbucks&sensor=false&key=AIzaSyAYvCR97Nk_jb6qGS6wALAKN5QACx9Yy6I";
+			//String THE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=33.9212767,-118.0067825&radius=5000&types=cafe&name=starbucks&sensor=false&key=AIzaSyAYvCR97Nk_jb6qGS6wALAKN5QACx9Yy6I";
 			
 			HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 			HttpRequest request = httpRequestFactory
-					.buildGetRequest(new GenericUrl(THE_URL));
-					//.buildGetRequest(new GenericUrl(PLACES_SEARCH_URL));
+					//.buildGetRequest(new GenericUrl(THE_URL));
+					.buildGetRequest(new GenericUrl(PLACES_SEARCH_URL));
 			
-			/*
+			
 			request.getUrl().put("key", API_KEY);
 			request.getUrl().put("location", _latitude + "," + _longitude);
 			request.getUrl().put("radius", _radius); // in meters
 			request.getUrl().put("sensor", "false");
 			if(types != null) {
 				request.getUrl().put("types", types);
-				request.getUrl().put("name", _name);
+				request.getUrl().put("name", "starbucks");
+				
 			}
-			*/
+			
 			
 			PlacesList list = request.execute().parseAs(PlacesList.class);
 			// Check log cat for places response status

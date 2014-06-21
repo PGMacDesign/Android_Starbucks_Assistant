@@ -12,14 +12,18 @@ import org.json.JSONObject;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.ActionBar.Tab;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -146,7 +150,59 @@ public class ExtraCode {
 	
 	 
 	 
-	 
+	 //
+	  
+	   	//TabListenr class for managing user interaction with the ActionBar tabs. The
+	//application context is passed in pass it in constructor, needed for the
+	//toast.
+
+	class MyTabsListener implements ActionBar.TabListener {
+		public android.support.v4.app.Fragment fragment;
+		public Context context;
+
+		public MyTabsListener(android.support.v4.app.Fragment fragment, Context context) {
+			this.fragment = fragment;
+			this.context = context;
+
+		}
+
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			Toast.makeText(context, "Reselected!", Toast.LENGTH_SHORT).show();
+			ft.replace(R.id.pager, fragment);
+
+		}
+
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			Toast.makeText(context, "Selected!", Toast.LENGTH_SHORT).show();
+			ft.replace(R.id.pager, fragment);
+		}
+
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			Toast.makeText(context, "Unselected!", Toast.LENGTH_SHORT).show();
+			ft.remove(fragment);
+		}
+
+		@Override
+		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
+	   
+	 //
 	 
 	 
 	 

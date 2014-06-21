@@ -135,74 +135,34 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
   }
   
   
-//TabListenr class for managing user interaction with the ActionBar tabs. The
-//application context is passed in pass it in constructor, needed for the
-//toast.
-
-	class MyTabsListener implements ActionBar.TabListener {
-		public android.support.v4.app.Fragment fragment;
-		public Context context;
-
-		public MyTabsListener(android.support.v4.app.Fragment fragment, Context context) {
-			this.fragment = fragment;
-			this.context = context;
-
-		}
-
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			Toast.makeText(context, "Reselected!", Toast.LENGTH_SHORT).show();
-
-		}
-
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			Toast.makeText(context, "Selected!", Toast.LENGTH_SHORT).show();
-			ft.replace(R.id.pager, fragment);
-		}
-
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			Toast.makeText(context, "Unselected!", Toast.LENGTH_SHORT).show();
-			ft.remove(fragment);
-		}
-
-		@Override
-		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
 
 
-	/////////////////////////////////////////
+
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
-		// TODO Auto-generated method stub
+		// on tab selected
+		// show respected fragment view
+		viewPager.setCurrentItem(tab.getPosition());
 		
 	}
-	
+
 	@Override
 	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
 	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
-		// TODO Auto-generated method stub
+		// on tab selected
+		// show respected fragment view
+		//viewPager.setCurrentItem(tab.getPosition());
 		
 	}
+
+
+
+
 }
 
 
