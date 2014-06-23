@@ -360,7 +360,7 @@ public class FragmentStores extends Fragment {
 				// Check list of types supported by google
 				// 
 				String types = "cafe"; //cafe|restaurant //Listing places only cafes, restaurants  ///////////////////////////////////////////////
-				String name = "starbucks";
+				String name = "starbucks"; //Hardcoding starbucks into other section for now, leaving this here as a reminder
 				
 				// Radius in meters - increase this value if you don't find any places
 				double radius = 10000; // 10000 meters 
@@ -369,7 +369,7 @@ public class FragmentStores extends Fragment {
 				
 				// get nearest places
 				nearPlaces = googlePlaces.search(dy[0],
-						dy[1], radius, types);
+						dy[1], radius, types); //Types is being passed in, not name here
 				
 				testLat = gps.getLatitude();
 				testLng = gps.getLongitude();
